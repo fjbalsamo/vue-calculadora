@@ -1,12 +1,12 @@
 <template>
-  <button type="button" @click="punto">=</button>
+  <button type="button" @click="equal">=</button>
 </template>
 
 <script>
 export default {
   name: "BtnIgual",
   methods: {
-    punto() {
+    equal() {
       this.$emit("pressIgual");
     },
   },

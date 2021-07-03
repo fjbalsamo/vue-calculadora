@@ -57,6 +57,11 @@
           />
         </td>
       </tr>
+      <tr>
+        <td colspan="4">
+          <button type="button" @click="clear">clear</button>
+        </td>
+      </tr>
     </tbody>
   </table>
 </template>
@@ -66,6 +71,7 @@ import BtnNumero from "./BtnNumero.vue";
 import BtnOperacion from "./BtnOperacion.vue";
 import BtnPunto from "./BtnPunto.vue";
 import BtnIgual from "@/components/BtnIgual";
+import todasLasOperaciones, { sum, diff } from "../calculate";
 
 export default {
   name: "Calculadora",
@@ -79,6 +85,7 @@ export default {
     return {
       displayP: "0",
       displayS: "",
+      operacion: "",
     };
   },
   methods: {
@@ -90,13 +97,48 @@ export default {
       }
     },
     capturarOperacion(operacion) {
-      alert(operacion);
+      this.displayS = this.displayP;
+      this.displayP = "0";
+      this.operacion = operacion;
     },
     capturarPunto() {
       alert("hizo click en punto");
     },
     calcular() {
-      alert("hacer el calculo");
+      const { div, ...lasDemasOp } = todasLasOperaciones;
+      switch (this.operacion) {
+        case "+":
+          this.displayP = sum(Number(this.displayS), Number(this.displayP));
+          this.displayS = "";
+          break;
+        case "-":
+          this.displayS = diff(Number(this.displayS), Number(this.displayP));
+          this.displayS = "";
+          break;
+        case "*":
+          this.displayP = lasDemasOp.prod(
+            Number(this.displayS),
+            Number(this.displayP)
+          );
+          this.displayS = "";
+          break;
+        case "/":
+          this.displayP = div(Number(this.displayS), Number(this.displayP));
+          this.displayS = "";
+          break;
+        default:
+          alert("operacion invalida");
+          break;
+      }
+    },
+    clear() {
+      this.displayP = "0";
+      this.displayS = "";
+      let text = "";
+      for (let i = 0; i <= 9; i++) {
+        text += Number("hola");
+      }
+      console.log(`${text} batman`);
     },
   },
 };
